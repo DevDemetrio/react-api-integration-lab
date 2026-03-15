@@ -1,6 +1,7 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { PostService } from "../service/objectService";
 import type { ObjectResponseList } from "../type/object.response.shema";
+import type { ObjectPayloadType } from "../type/object.payload.schema";
 //simport { getAlertTitleUtilityClass } from "@mui/material";
 
 
@@ -13,6 +14,7 @@ const service = new PostService()
 
 export interface PostContextData {
     getAll:() =>Promise<ObjectResponseList>
+    postObject:(payload: ObjectPayloadType)=> Promise<ObjectPayloadType>
 }
 
 const PostContext = createContext<PostContextData>(
@@ -32,8 +34,19 @@ export const PostProvider = ({children}: ProvideProps) =>{
       }
       }
 
+      const postObject = async (payload: ObjectPayloadType) => {
+
+        try{
+          const res = await service.postObject(payload);
+          return res
+        }catch(err){
+          console.log(err)
+          throw err;
+        }
+      }
+
       return (
-        <PostContext.Provider value={{ getAll }}>
+        <PostContext.Provider value={{ getAll, postObject }}>
           {children}
         </PostContext.Provider>
       );   
