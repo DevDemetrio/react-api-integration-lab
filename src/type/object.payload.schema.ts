@@ -10,8 +10,6 @@ const ObjectDatas = z.object({
 })
 
 
-
-
 export const ObjectPayloadShema = z.object({
     name: z.string(),
     data: ObjectDatas
