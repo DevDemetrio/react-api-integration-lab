@@ -3,13 +3,11 @@ import {z} from "zod"
 
 
 const ObjectDatas = z.object({
-    year: z.coerce.number(),
-    price: z.coerce.number(),
+    year: z.string(),
+    price: z.string(),
     cpuModel: z.string(),
     hardDiskSize: z.string()
 })
-
-
 
 
 export const ObjectFormShema = z.object({
