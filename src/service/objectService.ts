@@ -7,8 +7,6 @@ import { ObjectResponseListShema} from "../type/object.response.shema";
 export class PostService extends ApiClient {
     async getAll(){
         const res = await this.api.get("/objects");
-        console.log("RAW DATA:", res.data);
-        console.log("res.data",res.data)
         return ObjectResponseListShema.parse(res.data)
     }
 
