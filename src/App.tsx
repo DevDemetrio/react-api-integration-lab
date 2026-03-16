@@ -10,7 +10,7 @@ function App() {
       {/* <ListObject /> */}
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/list" element={<ListObject />} />
+          <Route path="/" element={<ListObject />} />
           <Route path="/new" element={<NewObject />} />
         </Route>
       </Routes>
