@@ -1,9 +1,15 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller } from "react-hook-form";
-import  { type ObjectFormShemaType, ObjectFormShema } from "../../../type/object.form.schema";
+import  { ObjectFormShema, type ObjectFormShemaType } from "../../../type/object.form.schema";
+import { useObject } from "../../../hook/useObject";
+import { ObjectPayloadShema } from "../../../type/object.payload.schema";
+
+
 
 export function useObjectForm(){
+
+    const {postObject} = useObject()
     const {
         control,
         handleSubmit,
@@ -14,8 +20,8 @@ export function useObjectForm(){
         defaultValues:{
             name: "",
             data: {
-                year:undefined,
-                price: undefined,
+                year:"",
+                price: "",
                 cpuModel: "",
                 hardDiskSize: ""
             }
@@ -23,7 +29,18 @@ export function useObjectForm(){
     })
     
     function handleSubmitForm(data: ObjectFormShemaType){
-        console.log(data)
+        //console.log(data)
+        const payload = ObjectPayloadShema.parse({
+            name: data.name,
+            data: {
+                year: Number(data.data.year),
+                price: Number(data.data.price),
+                cpuModel: data.data.cpuModel,
+                hardDiskSize: data.data.hardDiskSize
+            }
+        })
+        console.log(payload)
+        postObject(payload)
     }
 
 
