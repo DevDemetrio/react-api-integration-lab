@@ -1,4 +1,5 @@
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -7,9 +8,10 @@ import {
 } from "@mui/material";
 import { useListObject } from "./useListObject";
 import { TableContainer, Paper } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 export function ListObject() {
-  const { objectList } = useListObject();
+  const { objectList, hanedleEdit } = useListObject();
 
   const firstItem = objectList?.[0];
   return (
@@ -18,7 +20,7 @@ export function ListObject() {
         <TableHead>
           <TableRow>
             {firstItem &&
-              ["id", "name", ...Object.keys(firstItem.data ?? {})].map(
+              ["id", "name",...Object.keys(firstItem.data ?? {}), "Edit"].map(
                 (key) => <TableCell key={key}>{key}</TableCell>
               )}
           </TableRow>
@@ -33,6 +35,12 @@ export function ListObject() {
               </TableCell>
               <TableCell>
                 {String(item.data?.capacity ? item.data?.capacity : "-")}
+              </TableCell>
+
+              <TableCell>
+                <Button onClick={()=> hanedleEdit(item.id)}>
+                  <EditIcon/>
+                </Button>
               </TableCell>
             </TableRow>
           ))}
