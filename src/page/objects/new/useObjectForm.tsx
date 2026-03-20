@@ -4,16 +4,21 @@ import { Controller } from "react-hook-form";
 import  { ObjectFormShema, type ObjectFormShemaType } from "../../../type/object.form.schema";
 import { useObject } from "../../../hook/useObject";
 import { ObjectPayloadShema } from "../../../type/object.payload.schema";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 
 
 export function useObjectForm(){
 
-    const {postObject} = useObject()
+    const {id} = useParams<{id: string}>()
+
+    const {postObject, objectByid} = useObject()
     const {
         control,
         handleSubmit,
         register,
+        reset,
         formState:{errors}
        } = useForm<ObjectFormShemaType>({
         resolver: zodResolver(ObjectFormShema),
@@ -43,6 +48,24 @@ export function useObjectForm(){
         postObject(payload)
     }
 
+    useEffect(() =>{
+        async function loadPost(){
+            if(!id) return
+
+            const data = await objectByid(id)
+            reset({
+                name: data.name,
+                data: data.data
+                 ? {
+                    year: data.data.year,
+                    price: data.data.price,
+                    cpuModel: data.data.cpuModel,
+                    hardDiskSize: data.data.hardDiskSize
+                } : undefined    
+            })
+        }
+        loadPost()
+    },[id])
 
     return{
         Controller,
